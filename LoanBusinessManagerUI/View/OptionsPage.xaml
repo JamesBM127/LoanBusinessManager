@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LoanBusinessManagerUI.View.OptionsPage"
+             xmlns:viewmodel="clr-namespace:LoanBusinessManagerUI.ViewModel"
+             x:DataType="viewmodel:OptionsViewModel"
+             xmlns:local="clr-namespace:LoanBusinessManagerUI.View.Views"
+             Title="Opções">
+
+    <Grid RowDefinitions="*,Auto"
+          ColumnDefinitions="*,*"
+          BackgroundColor="#333333">
+
+        <Grid Grid.ColumnSpan="{OnPlatform WinUI=1, Default=2}"
+              RowDefinitions="Auto,Auto"
+              Padding="20"
+              RowSpacing="20"
+              
+              >
+
+            <Frame Grid.Row="0"
+                   BackgroundColor="Transparent"
+                   BorderColor="White">
+                <VerticalStackLayout>
+
+                    <Label Text="Dados"
+                           Style="{StaticResource OptionsFrameLabel}"/>
+
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="15">
+                        
+                        <Button Text="Baixar"
+                                Command="{Binding DownloadDatabaseFromAwsCommand}"
+                                Style="{StaticResource OptionsFrameButton}"/>
+
+                        <Button Text="Salvar"
+                                Grid.Column="1"
+                                Command="{Binding UploadDatabaseToAwsCommand}"
+                                Style="{StaticResource OptionsFrameButton}"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame Grid.Row="1"
+                   BackgroundColor="Transparent"
+                   BorderColor="White">
+                <VerticalStackLayout>
+
+                    <Label Text="Fechar Aplicativo"
+                           Style="{StaticResource OptionsFrameLabel}"/>
+
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="15">
+
+                        <Button Text="Fechar"
+                                Command="{Binding ShutdownAppCommand}"
+                                Style="{StaticResource OptionsFrameButton}"/>
+
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Grid.ColumnSpan="2"
+              ColumnDefinitions="*,*"
+              HeightRequest="50"
+              ColumnSpacing="-2">
+            
+            <local:FooterButtons VerticalOptions="EndAndExpand" />
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:LoanBusinessManagerUI.ViewModel"
+             x:DataType="viewmodel:PaymentViewModel"
+             x:Class="LoanBusinessManagerUI.View.EditPage.EditPaymentPage"
+             Title="Edite um pagamento">
+
+    <ContentView>
+        <Grid RowDefinitions="*,Auto,Auto">
+
+            <Grid Padding="0"
+                  RowDefinitions="Auto,Auto,Auto"
+                  ColumnDefinitions="*,*" 
+                  RowSpacing="0">
+
+                <!--Frame Header-->
+                <Frame HorizontalOptions="FillAndExpand"
+                       VerticalOptions="StartAndExpand"
+                       BackgroundColor="#D8D8D8"
+                       HeightRequest="130"
+                       Grid.Row="0"
+                       Grid.ColumnSpan="2">
+
+                    <Grid RowDefinitions="Auto,Auto"
+                                ColumnDefinitions="*,*">
+
+                        <Label Text="{Binding Payment.Amount, StringFormat='Quantia: R${0}'}"
+                               Style="{StaticResource HeaderLoanLabel}"/>
+
+                        <Label Text="{Binding Payment.PaymentDate, StringFormat='Data: {0}'}"
+                               Style="{StaticResource HeaderLoanLabel}"
+                               Grid.Column="1" />
+                    </Grid>
+                </Frame>
+
+                <!--Black Line-->
+                <BoxView Grid.Row="1"
+                         Grid.ColumnSpan="2"
+                         HeightRequest="3"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="Center"
+                         Color="Black"/>
+
+                <!--ToPayBody-->
+                <StackLayout Grid.Row="2"
+                             Grid.ColumnSpan="2">
+
+                    <Grid ColumnDefinitions="*,*"
+                          Padding="0"
+                          RowSpacing="30">
+
+                        <!--Amount-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                               Grid.Row="0"
+                               Grid.Column="0">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Quantia R$"
+                                       Style="{StaticResource LabelCenterBlack}"
+                                       Grid.Column="0"/>
+
+                                <Entry Text="{Binding PaymentToUpdate.Amount}"
+                                       Style="{StaticResource TwoColumnEntry}"
+                                       Keyboard="Numeric" 
+                                       x:Name="amountPay"
+                                       TextChanged="AmountPay_TextChanged" />
+
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!--Payment Date-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                                   Grid.Row="0"
+                                   Grid.Column="1">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Data"
+                                       Style="{StaticResource LabelCenterBlack}"/>
+
+                                <DatePicker Date="{Binding PaymentToUpdate.PaymentDate}"
+                                            Style="{StaticResource TwoColumnDatePicker}"/>
+
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        
+                        <!--Error Warning Label-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                               x:Name="errorFrame"
+                               IsVisible="false"
+                               Grid.Row="2"
+                               Grid.Column="1">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Erro"
+                                       TextColor="Red"
+                                       FontSize="30"
+                                       Style="{StaticResource LabelCenterBlack}"/>
+
+                                <Label TextColor="DarkRed"
+                                       x:Name="errorLabel"
+                                       FontSize="{OnPlatform UWP=25, Default=20}" />
+
+                            </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
+                </StackLayout>
+            </Grid>
+
+            <!--Footer-->
+
+            <Grid ColumnDefinitions="*,*"
+                  HeightRequest="50"
+                  ColumnSpacing="-2"
+                  VerticalOptions="End">
+
+                <Button Style="{StaticResource FooterGoBackButton}"
+                        Command="{Binding GoBackCommand}"
+                        Grid.Column="0"/>
+
+                <Button Text="Salvar"
+                        Command="{Binding UpdatePaymentCommand}"
+                        CornerRadius="0"
+                        Grid.Column="1"
+                        TextColor="White"
+                        FontSize="25"
+                        BackgroundColor="#303030"/>
+            </Grid>
+        </Grid>
+    </ContentView>
+
+</ContentPage>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:LoanBusinessManagerUI.ViewModel"
+             xmlns:local="clr-namespace:LoanBusinessManagerUI.View.Views"
+             x:DataType="viewmodel:LoanViewModel"
+             x:Class="LoanBusinessManagerUI.View.EditPage.EditLoanPage"
+             Title="Edite um emprestimo">
+
+    <ContentView>
+        <Grid RowDefinitions="*,Auto,Auto">
+
+            <Grid Padding="0"
+                  RowDefinitions="Auto,Auto,Auto"
+                  ColumnDefinitions="*,*" 
+                  RowSpacing="0">
+
+                <!--Frame Header-->
+                <Frame HorizontalOptions="FillAndExpand"
+                       VerticalOptions="StartAndExpand"
+                       BackgroundColor="#D8D8D8"
+                       Grid.Row="0"
+                       Grid.ColumnSpan="2">
+
+                    <Grid RowDefinitions="Auto,Auto, Auto"
+                          ColumnDefinitions="*,*">
+
+                        <Label Text="{Binding AmountLoan, StringFormat='Quantia: R${0}'}"
+                               Style="{StaticResource HeaderLoanLabel}"/>
+
+                        <Label Text="{Binding Loan.StartDate, StringFormat='Data: {0}'}"
+                               Style="{StaticResource HeaderLoanLabel}"
+                               Grid.Row="0" 
+                               Grid.Column="1"/>
+
+                        <Label Text="{Binding Loan.Interest, StringFormat='Juros: {0}%'}"
+                               Style="{StaticResource HeaderLoanLabel}"
+                               Grid.Row="1"
+                               Grid.Column="0"/>
+
+                        <!--<Label Text="{Binding Loan.DayOfMonthDueDate, StringFormat='Dia do juros: {0} de cada mês'}"
+                               Style="{StaticResource HeaderLoanLabel}"
+                               Grid.Row="1"
+                               Grid.Column="1"/>-->
+
+                        <Label Text="{Binding TotalLoan, StringFormat='Total: R${0}'}"
+                               Style="{StaticResource HeaderLoanLabel}"
+                               Grid.Row="2"
+                               Grid.Column="0"/>
+                    </Grid>
+                </Frame>
+
+                <!--Black Line-->
+                <BoxView Grid.Row="1"
+                         Grid.ColumnSpan="2"
+                         HeightRequest="3"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="Center"
+                         Color="Black"/>
+
+                <!--ToLoanBody-->
+                <StackLayout Grid.Row="2"
+                             Grid.ColumnSpan="2">
+
+                    <Grid ColumnDefinitions="*,*"
+                              RowDefinitions="*,*,*"
+                              Padding="0"
+                              RowSpacing="30">
+
+                        <!--Amount-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                               Grid.Row="0"
+                               Grid.Column="0">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Quantia R$"
+                                       Style="{StaticResource LabelCenterBlack}"
+                                       Grid.Column="0"/>
+
+                                <Entry Text="{Binding LoanToUpdate.Amount}"
+                                       Style="{StaticResource TwoColumnEntry}"
+                                       Keyboard="Numeric" 
+                                       x:Name="amountLoan"
+                                       TextChanged="AmountLoan_TextChanged"/>
+
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!--Start Date-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                                   Grid.Row="0"
+                                   Grid.Column="1">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Data"
+                                           Style="{StaticResource LabelCenterBlack}"/>
+
+                                <DatePicker Date="{Binding LoanToUpdate.StartDate}"
+                                            Style="{StaticResource TwoColumnDatePicker}"/>
+
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!--Interest Value-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                               Grid.Row="1"
+                               Grid.Column="0">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Juros (%)"
+                                       Style="{StaticResource LabelCenterBlack}"/>
+
+                                <Entry Text="{Binding LoanToUpdate.Interest}"
+                                       Style="{StaticResource TwoColumnEntry}"
+                                       Keyboard="Numeric"
+                                       BackgroundColor="#DDDDDD"
+                                       TextColor="Black"
+                                       x:Name="interestLoan"
+                                       TextChanged="Interest_TextChanged"
+                                       />
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!--Interest Type-->
+                        <!--<Frame Style="{StaticResource TwoColumnFrame}"
+                               Grid.Row="1"
+                               Grid.Column="1">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Tipo de juros"
+                                       Style="{StaticResource LabelCenterBlack}"/>
+
+                                <Picker ItemsSource="{Binding InterestsTypes}"
+                                        SelectedItem="{Binding LoanToUpdate.InterestType}"
+                                        Style="{StaticResource TwoColumnPicker}"
+                                        Grid.Column="1"/>
+                            </VerticalStackLayout>
+                        </Frame>-->
+
+                        <!--Error Warning Label-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                                   x:Name="errorFrame"
+                                   IsVisible="false"
+                                   Grid.Row="2"
+                                   Grid.Column="1">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Erro"
+                                           TextColor="Red"
+                                           FontSize="30"
+                                           Style="{StaticResource LabelCenterBlack}"/>
+
+                                <Label TextColor="DarkRed"
+                                           x:Name="errorLabel"
+                                           FontSize="{OnPlatform UWP=25, Default=20}"
+                                           />
+
+                            </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
+                </StackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*"
+                  HeightRequest="50"
+                  ColumnSpacing="-2"
+                  VerticalOptions="End">
+
+                <local:FooterButtons/>
+                
+                <Button Style="{StaticResource FooterSaveButton}"
+                        Command="{Binding UpdateLoanCommand}"/>
+            </Grid>
+        </Grid>
+    </ContentView>
+
+</ContentPage>

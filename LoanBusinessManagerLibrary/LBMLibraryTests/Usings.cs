@@ -1,0 +1,9 @@
+global using NUnit.Framework;
+global using FBMLibraryTests.ConfigTests;
+global using FBMLibrary.Business;
+global using FBMLibrary.Data;
+global using FBMLibrary.Entity;
+global using FBMLibrary.Enums;
+global using FBMLibrary.Service.Implementation;
+global using JBMDatabase.Enum;
+global using JBMDatabase.UnitOfWork;

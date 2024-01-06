@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="LoanBusinessManagerUI.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:LoanBusinessManagerUI"
+    xmlns:viewmodel="clr-namespace:LoanBusinessManagerUI.ViewModel"
+    x:DataType="viewmodel:AppShellViewModel"
+    Shell.FlyoutBehavior="{OnPlatform WinUI=Locked, Default=Flyout}">
+
+    <!--<Shell.ItemTemplate>
+        <DataTemplate>
+            <HorizontalStackLayout Spacing="10" Padding="25">
+                <Image Source="{Binding FlyoutIcon}"
+                       Aspect="AspectFill"
+                       HeightRequest="20"
+                       WidthRequest="20"/>
+                <Label Text="{Binding Title}"
+                       FontSize="20"
+                       TextColor="Red"
+                       FontAttributes="Bold"/>
+            </HorizontalStackLayout>
+        </DataTemplate>
+    </Shell.ItemTemplate>-->
+
+    <Shell.FlyoutHeader>
+        <Border BackgroundColor="Yellow"
+                StrokeThickness="0">
+            <Grid ColumnDefinitions="*, *"
+                  RowDefinitions="Auto, *"
+                  Padding="25"
+                  ColumnSpacing="20">
+                
+                <Image Grid.Column="0"
+                   Source="dotnet_bot.png"
+                   Aspect="AspectFill"
+                   HeightRequest="50"
+                   WidthRequest="50"/>
+
+                <Label Grid.Column="1"
+                   Text="Menu"
+                   VerticalTextAlignment="Center"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#333"/>
+
+                <Button Text="Opções"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        HorizontalOptions="Center"
+                        Style="{StaticResource GetSaveDatabaseButtonMenu}"
+                        Command="{Binding GoToOptionsPageCommand}"/>
+                
+                <!--<Button Text="Baixar Banco"
+                        Grid.Row="1"
+                        Style="{StaticResource GetSaveDatabaseButtonMenu}"
+                        Command="{Binding DownloadDatabaseFromAwsCommand}"/>
+                
+                <Button Text="Salvar Banco"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{StaticResource GetSaveDatabaseButtonMenu}"
+                        Command="{Binding UploadDatabaseToAwsCommand}"/>-->
+            </Grid>
+        </Border>
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutContent>
+        <ScrollView BackgroundColor="Black">
+            <VerticalStackLayout Padding="10" Spacing="20">
+                
+                <Frame BackgroundColor="White">
+                    <VerticalStackLayout Spacing="15">
+
+                        <Label Text="Assunto"
+                               Style="{StaticResource LargeLabel}"/>
+
+                        <Button Text="Pessoas"
+                                FontSize="20"
+                                IsVisible="False"
+                                BackgroundColor="Black"
+                                TextColor="White"
+                                Command="{Binding GoToLoanPageCommand}"
+                                HeightRequest="40"/>
+
+                        <Button Text="Emprestimos"
+                                FontSize="20"
+                                BackgroundColor="Black"
+                                TextColor="White"
+                                Command="{Binding GoToLoanPageCommand}"
+                                HeightRequest="40"/>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame BackgroundColor="White">
+                    <VerticalStackLayout Spacing="15">
+
+                        <Label Text="Criar Novo"
+                               Style="{StaticResource LargeLabel}"/>
+
+                        <Button Text="Pessoa"
+                                FontSize="20"
+                                BackgroundColor="Black"
+                                TextColor="White"
+                                Command="{Binding GoToCreatePersonPageCommand}"
+                                HeightRequest="40"/>
+
+                        <!--<Button Text="Casa"
+                                IsVisible="False"
+                                FontSize="20"
+                                BackgroundColor="Black"
+                                TextColor="White"
+                                Command="{Binding GoToCreateHousePageCommand}"
+                                HeightRequest="40"/>-->
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Shell.FlyoutContent>
+
+    <Shell.FlyoutFooter>
+        <Label Text="Copyright | Jameson"
+               HorizontalTextAlignment="End"/>
+    </Shell.FlyoutFooter>
+
+    <!--<FlyoutItem FlyoutDisplayOptions="AsSingleItem" Route="ParentRoute">
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+        <ShellContent
+            Title="Menu 1"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Icon="dotnet_bot.png"
+            Route="MainPage1" />
+        <ShellContent
+            Title="Menu 2"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Icon="dotnet_bot.png"
+            Route="MainPage2" />
+
+
+    </FlyoutItem>-->
+
+    <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+
+</Shell>

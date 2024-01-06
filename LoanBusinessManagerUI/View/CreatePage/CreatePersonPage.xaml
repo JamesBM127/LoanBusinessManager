@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:LoanBusinessManagerUI.ViewModel"
+             xmlns:model="clr-namespace:LBMLibrary.Entity;assembly=LoanBusinessManager"
+             xmlns:local="clr-namespace:LoanBusinessManagerUI.View.Views"
+             x:DataType="viewmodel:PersonViewModel"
+             x:Class="LoanBusinessManagerUI.View.CreatePage.CreatePersonPage"
+             Title="Cadastro de Pessoas">
+
+    <Grid RowDefinitions="*,Auto"
+          BackgroundColor="Black">
+
+        <VerticalStackLayout Padding="15"
+                             Spacing="5">
+            <!--PersonName-->
+            <Frame Style="{StaticResource WhiteFrame}"
+                   Grid.Row="0">
+
+                <VerticalStackLayout Spacing="5">
+
+                    <Label Text="Nome"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            TextColor="Black"
+                            FontSize="20" />
+
+                    <Entry Text="{Binding PersonName}"
+                           Style="{StaticResource OneColumnEntry}"
+                           Grid.Column="0"
+                           Grid.Row="1"
+                           Placeholder="Digite o nome"
+                           MaxLength="50" />
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!--SURNAME-->
+            <Frame Style="{StaticResource WhiteFrame}"
+                   Grid.Row="0">
+
+                <VerticalStackLayout Spacing="5">
+
+                    <Label Text="Sobrenome"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            TextColor="Black"
+                            FontSize="20" />
+
+                    <Entry Text="{Binding PersonSurname}"
+                           Style="{StaticResource OneColumnEntry}"
+                           Grid.Column="0"
+                           Grid.Row="1"
+                           Placeholder="Digite o sobrenome"
+                           MaxLength="50" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--Nickname-->
+            <Frame Style="{StaticResource WhiteFrame}"
+                   Grid.Row="1">
+
+                <VerticalStackLayout Spacing="5">
+
+                    <Label Text="Apelido"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            TextColor="Black"
+                            FontSize="20" />
+
+                    <Entry Text="{Binding PersonNickname}"
+                           Style="{StaticResource OneColumnEntry}"
+                           Grid.Column="0"
+                           Grid.Row="1"
+                           Placeholder="Digite o apelido"
+                           MaxLength="50" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--Phone 1-->
+            <Frame Style="{StaticResource WhiteFrame}"
+                   Grid.Row="2">
+
+                <VerticalStackLayout Spacing="5">
+
+                    <HorizontalStackLayout Grid.Column="0"
+                                            Grid.Row="0">
+
+                        <Label Text="Telefone 1"
+                               TextColor="Black"
+                               FontSize="20" />
+
+                        <CheckBox IsChecked="{Binding Phone1Whatsapp}"
+                                  Color="#00AA00"/>
+
+                        <Image Source="whatsapp_icon.png"
+                               WidthRequest="20"
+                               Grid.Column="1"
+                               Grid.Row="0"/>
+
+                        <Label Text=" Whatsapp"
+                               IsVisible="{Binding Phone1Whatsapp}"
+                               TextColor="Black"
+                               VerticalTextAlignment="Center"
+                               FontSize="18"/>
+                    </HorizontalStackLayout>
+
+                    <Entry Text="{Binding PersonPhone1}"
+                           Style="{StaticResource OneColumnEntry}"
+                           Placeholder="Primeiro telefone (Opcional)"
+                           Keyboard="Numeric"
+                           MaxLength="50"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--Phone 2-->
+            <Frame Style="{StaticResource WhiteFrame}"
+                   Grid.Row="3">
+
+                <VerticalStackLayout Spacing="5">
+
+                    <HorizontalStackLayout Grid.Column="0"
+                                            Grid.Row="0">
+
+                        <Label Text="Telefone 2"
+                               TextColor="Black"
+                               FontSize="20" />
+
+                        <CheckBox IsChecked="{Binding Phone2Whatsapp}"
+                                  Color="#00AA00"/>
+
+                        <Image Source="whatsapp_icon.png"
+                                WidthRequest="20"
+                                Grid.Column="1"
+                                Grid.Row="0"/>
+                        
+                    </HorizontalStackLayout>
+
+                    <Entry Text="{Binding PersonPhone2}"
+                           Style="{StaticResource OneColumnEntry}"
+                           Placeholder="Segundo telefone (Opcional)"
+                           Keyboard="Numeric"
+                           MaxLength="50"/>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+
+        <Grid ColumnDefinitions="*,*"
+              ColumnSpacing="-2"
+              VerticalOptions="End">
+
+            <local:FooterButtons VerticalOptions="EndAndExpand"/>
+
+            <Button Command="{Binding CreatePersonCommand}"
+                    Style="{StaticResource FooterSaveButton}"
+                    Grid.Column="1"/>
+        </Grid>
+    </Grid>
+        
+</ContentPage>

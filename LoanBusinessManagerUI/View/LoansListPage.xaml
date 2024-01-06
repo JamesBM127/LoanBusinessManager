@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:LoanBusinessManagerUI.ViewModel"
+             xmlns:model="clr-namespace:LBMLibrary.Entity;assembly=LoanBusinessManager"
+             x:DataType="viewmodel:LoanViewModel"
+             x:Class="LoanBusinessManagerUI.View.LoansListPage"
+             Title="Histórico de Emprestimos">
+
+    <Grid RowDefinitions="Auto, *, Auto">
+
+        <!--Header-->
+        <Grid ColumnDefinitions="*,*,*"
+              BackgroundColor="Black">
+            
+            <Label Text="#"
+                   Grid.Column="0"
+                   Style="{StaticResource HeaderTableLabel}"/>
+            <Label Text="Valor"
+                   Grid.Column="1"
+                   Style="{StaticResource HeaderTableLabel}"/>
+            <Label Text="Data"
+                   Grid.Column="2"
+                   Style="{StaticResource HeaderTableLabel}"/>
+        </Grid>
+        
+        <!--Table-->
+        <ScrollView Grid.Row="1" VerticalScrollBarVisibility="Always">
+            <CollectionView ItemsSource="{Binding Loans}"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Loan">
+                        
+                        <Frame BindingContextChanged="loanFrame_BindingContextChanged"
+                               BorderColor="Black"
+                               CornerRadius="0"
+                               BackgroundColor="White">
+
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LoanViewModel}}, Path=GoToLoanEditCommand}"
+                                    CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                            
+                            <Grid ColumnDefinitions="*,*,*">
+
+                                <Label Text="{Binding Counter}"
+                                       Grid.Column="0"
+                                       TextColor="Black"
+                                       HorizontalTextAlignment="Center"
+                                       FontSize="17"
+                                       HeightRequest="30"/>
+
+                                <Label Text="{Binding Amount}"
+                                    Grid.Column="1"
+                                    TextColor="Black"
+                                    HorizontalTextAlignment="Center"
+                                    FontSize="17"
+                                    HeightRequest="30"/>
+
+                                <Label Grid.Column="2"
+                                    TextColor="Black"
+                                    FontSize="17"
+                                    HorizontalTextAlignment="Center"
+                                    HeightRequest="30">
+                                    <Label.Text>
+                                        <MultiBinding StringFormat='{}{0}/{1}/{2}'>
+                                            <Binding Path="StartDate.Day" />
+                                            <Binding Path="StartDate.Month" />
+                                            <Binding Path="StartDate.Year" />
+                                        </MultiBinding>
+                                    </Label.Text>
+                                </Label>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+
+        <!--Footer Buttons-->
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,*"
+              HeightRequest="50"
+              ColumnSpacing="-2"
+              VerticalOptions="End">
+
+            <Button Style="{StaticResource FooterGoBackButton}"
+                    Command="{Binding GoBackLoanCommand}"
+                    IsVisible="{OnPlatform WinUI=True, Default=True}"
+                    Grid.Column="0"/>
+
+            <Button Text="Atualizar"
+                    IsVisible="False"
+                    CornerRadius="0"
+                    Grid.Column="1"
+                    TextColor="White"
+                    FontSize="25"
+                    BackgroundColor="Blue"/>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:LoanBusinessManagerUI.ViewModel"
+             xmlns:model="clr-namespace:LBMLibrary.Entity;assembly=LoanBusinessManager"
+             x:DataType="viewmodel:MainPageViewModel"
+             x:Class="LoanBusinessManagerUI.MainPage"
+             Title="Inicio / Histórico">
+
+    <Grid RowDefinitions="Auto, *">
+        
+        <!--SEARCH ENTRY-->
+        <Grid ColumnDefinitions="*,Auto"
+              HeightRequest="50"
+              BackgroundColor="#EEE">
+
+            <Entry Text="{Binding SearchName}"
+                   Placeholder="Pesquisar por..."
+                   FontSize="20"
+                   BackgroundColor="Transparent"
+                   TextColor="Black"
+                   PlaceholderColor="#777"
+                   HorizontalTextAlignment="Center"/>
+
+            <ImageButton Grid.Column="1"
+                         Command="{Binding GetDescriptionsCommand}"
+                         Source="search_button.png"
+                         HorizontalOptions="End"
+                         HeightRequest="45"/>
+        </Grid>
+
+        <!--TABLE-->
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,*,*,*"
+              RowDefinitions="Auto, *"
+              RowSpacing="10"
+              BackgroundColor="Gray">
+
+            <!--Header-->
+            <Frame Style="{StaticResource HeaderTableFrame}">
+                <Label Text="Descrição" Style="{StaticResource HeaderTableLabel}"/>
+            </Frame>
+
+            <Frame Grid.Column="1"
+                   Style="{StaticResource HeaderTableFrame}">
+                <Label Text="Mudança" Style="{StaticResource HeaderTableLabel}"/>
+            </Frame>
+
+            <Frame Grid.Column="2"
+                   Style="{StaticResource HeaderTableFrame}">
+                <Label Text="Historico" Style="{StaticResource HeaderTableLabel}"/>
+            </Frame>
+
+            <Frame Grid.Column="3"
+                   Style="{StaticResource HeaderTableFrame}">
+                <Label Text="Data" Style="{StaticResource HeaderTableLabel}"/>
+            </Frame>
+
+            <!--Table-->
+            <ScrollView Grid.Row="1"
+                        Grid.ColumnSpan="4"
+                        VerticalScrollBarVisibility="Always">
+
+                <CollectionView ItemsSource="{Binding Descriptions}">
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:DescriptionHistory">
+
+                            <Frame BindingContextChanged="descriptionHistoryFrame_BindingContextChanged"
+                                   Style="{StaticResource BodyTableFrame}">
+
+                                <Grid ColumnDefinitions="*,*,*,*"
+                                      VerticalOptions="Center"
+                                      >
+                                    <Label Text="{Binding Description}"
+                                           Style="{StaticResource BodyTableLabel}"/>
+
+                                    <Label Grid.Column="1"
+                                           Text="{Binding ModificationType}"
+                                           Style="{StaticResource BodyTableLabel}"/>
+
+                                    <Label Grid.Column="2"
+                                           Text="{Binding HistoryType}"
+                                           Style="{StaticResource BodyTableLabel}"/>
+
+                                    <Label Grid.Column="3"
+                                           Style="{StaticResource BodyTableLabel}">
+                                        <Label.Text>
+                                            <MultiBinding StringFormat='{}{0}/{1}/{2}'>
+                                                <Binding Path="ModificationDate.Day" />
+                                                <Binding Path="ModificationDate.Month" />
+                                                <Binding Path="ModificationDate.Year" />
+                                            </MultiBinding>
+                                        </Label.Text>
+                                    </Label>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+        </Grid>
+    </Grid>
+</ContentPage>

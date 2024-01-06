@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:LoanBusinessManagerUI.ViewModel"
+             xmlns:model="clr-namespace:LBMLibrary.Entity;assembly=LoanBusinessManager"
+             x:DataType="viewmodel:PersonViewModel"
+             x:Class="LoanBusinessManagerUI.View.PersonPage"
+             Title="{Binding Person.Name}">
+
+    <RefreshView Command="{Binding GetPersonCommand}"
+                 IsRefreshing="{Binding IsRefreshing}">
+        <Grid RowDefinitions="*,Auto">
+
+            <Grid Padding="0"
+                  RowDefinitions="Auto,Auto,Auto"
+                  ColumnDefinitions="*,*" 
+                  RowSpacing="0">
+
+                <!--Frame Header-->
+                <Frame HorizontalOptions="FillAndExpand"
+                       VerticalOptions="StartAndExpand"
+                       BackgroundColor="White"
+                       Grid.Row="0"
+                       Grid.ColumnSpan="2">
+
+                    <Grid RowDefinitions="Auto, Auto, Auto, Auto"
+                          ColumnDefinitions="*,*">
+
+                        <!--ROW 0-->
+                        <Grid Grid.ColumnSpan="2"
+                              ColumnDefinitions="Auto, *, Auto"
+                              MaximumHeightRequest="100">
+
+                            <Label Text="{Binding Person.Name}"
+                                   MaximumWidthRequest="120"
+                                   FontSize="17"
+                                   TextColor="Black"/>
+
+                            <Label Grid.Column="1"
+                                   Text="{Binding Person.Surname, StringFormat=' {0}'}"
+                                   FontSize="17"
+                                   TextColor="Black"/>
+
+                            <Label Grid.Column="2"
+                                   Text="{Binding Person.Debt.AmountRaw, StringFormat='Divida: R${0}'}"
+                                   FontSize="17"
+                                   TextColor="Black"/>
+                        </Grid>
+
+                        <!--ROW 1-->
+                        <Label Text="{Binding Person.Nickname}"
+                               Grid.Row="1"
+                               FontSize="17"
+                               HeightRequest="30"
+                               VerticalOptions="Start"
+                               HorizontalOptions="StartAndExpand"
+                               VerticalTextAlignment="Center"
+                               TextColor="Black"/>
+
+                        <Label Text="{Binding Person.PaymentStatus, StringFormat='Status: {0}'}"
+                               Grid.Column="1"
+                               Grid.Row="1"
+                               FontSize="17"
+                               HeightRequest="30"
+                               VerticalOptions="Start"
+                               HorizontalOptions="End"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"
+                               TextColor="Black"/>
+
+                        <!--ROW 2-->
+                        <CollectionView ItemsSource="{Binding Person.Phones}"
+                                        Grid.Row="2"
+                                        Grid.ColumnSpan="2">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="model:Phone" >
+                                    <Grid ColumnDefinitions="Auto,*"
+                                          Margin="0, 5">
+
+                                        <Label Text="{Binding PhoneNumber}"
+                                               TextColor="Black"
+                                               BackgroundColor="White"
+                                               FontSize="17"
+                                               HeightRequest="30"/>
+
+                                        <Button Text="WhatsApp"
+                                                Style="{StaticResource PersonHeaderButton}"
+                                                ImageSource="whatsapp_icon.png"
+                                                BackgroundColor="#51bc5c"
+                                                Clicked="GoToWhatsappButton_ClickedAsync"
+                                                IsVisible="{Binding IsWhatsapp}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!--ROW 3-->
+                        <Grid Grid.Row="3"
+                              Grid.ColumnSpan="2"
+                              ColumnDefinitions="Auto,Auto,Auto"
+                              ColumnSpacing="15">
+
+                            <Button Grid.Column="0"
+                                    Text="Dados"
+                                    IsEnabled="False"
+                                    IsVisible="False"
+                                    Command="{OnPlatform WinUI={Binding PersonDataWinUICommand}, Android={Binding PersonDataMobileCommand}}"
+                                    ImageSource="user_profile.png"
+                                    Style="{StaticResource PersonHeaderButton}"
+                                    TextColor="White"
+                                    BackgroundColor="#cc0000" />
+
+                            <Button Grid.Column="1"
+                                    Text="Editar"
+                                    ImageSource="user_profile.png"
+                                    Command="{Binding GoToEditPersonPageCommand}"
+                                    Style="{StaticResource PersonHeaderButton}"
+                                    BackgroundColor="Yellow" />
+
+                            <Frame Grid.Column="2"
+                                   x:Name="atualizarButton"
+                                   HeightRequest="35"
+                                   Padding="7"
+                                   BorderColor="Black"
+                                   BackgroundColor="DeepSkyBlue">
+
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="RefreshClicked"
+                                                          Command="{Binding GetPersonCommand}"/>
+                                </Frame.GestureRecognizers>
+
+                                <Grid ColumnDefinitions="Auto,*"
+                                      >
+                                    <Image x:Name="refreshImage"
+                                           Source="atualizar.png"/>
+
+                                    <Label Text="Atualizar"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           Grid.Column="1"
+                                           FontSize="15"
+                                           TextColor="Black"
+                                           FontAttributes="Bold"
+                                           HeightRequest="30"
+                                           />
+                                </Grid>
+                            </Frame>
+
+                        </Grid>
+
+                    </Grid>
+                </Frame>
+
+                <!--Menu Options Buttons-->
+                <Grid ColumnDefinitions="*,*"
+                      RowDefinitions="*,*"
+                      Grid.Row="1"
+                      Grid.ColumnSpan="2">
+
+                    <Button x:Name="toLoanButton"
+                            Clicked="toLoanButton_Clicked"
+                            Style="{StaticResource PersonMenuButton}"
+                            Text="Emprestar"
+                            HorizontalOptions="Fill"
+                            Grid.Column="0"/>
+
+                    <Button x:Name="toPayButton"
+                            Clicked="toPayButton_Clicked"
+                            Style="{StaticResource PersonMenuButton}"
+                            Text="Pagar"
+                            HorizontalOptions="Fill"
+                            Grid.Column="1" />
+
+                    <Button x:Name="loansButton"
+                            Clicked="loansButton_Clicked"
+                            Style="{StaticResource PersonMenuButton}"
+                            Text="Emprestimos"
+                            Grid.Row="1"
+                            HorizontalOptions="Fill"
+                            Grid.Column="0"/>
+
+                    <Button x:Name="paymentsButton"
+                            Clicked="paymentsButton_Clicked"
+                            Style="{StaticResource PersonMenuButton}"
+                            Text="Pagamentos"
+                            Grid.Row="1"
+                            HorizontalOptions="Fill"
+                            Grid.Column="1"/>
+
+                </Grid>
+
+                <!--ToLoanBody-->
+                <StackLayout x:Name="toLoanBody"
+                             Grid.Row="2"
+                             Grid.ColumnSpan="2"
+                             IsVisible="false">
+
+                    <Grid ColumnDefinitions="*,*"
+                          RowDefinitions="*,*,*">
+
+                        <!--Amount-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                                   Grid.Row="0"
+                                   Grid.Column="0">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Quantia R$"
+                                           Style="{StaticResource LabelCenterBlack}"
+                                           Grid.Column="0"/>
+
+                                <Entry Text="{Binding Loan.Amount}"
+                                       Style="{StaticResource TwoColumnEntry}"
+                                       Keyboard="Numeric" 
+                                       x:Name="amountLoan"
+                                       TextChanged="AmountLoan_TextChanged"/>
+
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!--Start Date-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                                   Grid.Row="0"
+                                   Grid.Column="1">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Data"
+                                           Style="{StaticResource LabelCenterBlack}"/>
+
+                                <DatePicker Date="{Binding Loan.StartDate}"
+                                            Style="{StaticResource TwoColumnDatePicker}" />
+
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!--Interest Value-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                                   Grid.Row="1"
+                                   Grid.Column="0">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Juros (%)"
+                                       Style="{StaticResource LabelCenterBlack}"/>
+
+                                <Entry Text="{Binding Loan.Interest}"
+                                       Style="{StaticResource TwoColumnEntry}"
+                                       Keyboard="Numeric"
+                                       BackgroundColor="#DDDDDD" 
+                                       TextColor="Black"
+                                       x:Name="interestLoan"
+                                       TextChanged="Interest_TextChanged"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!--Interest Type-->
+                        <!--<Frame Style="{StaticResource TwoColumnFrame}"
+                                   Grid.Row="1"
+                                   Grid.Column="1">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Tipo de juros"
+                                           Style="{StaticResource LabelCenterBlack}"/>
+
+                                <Picker ItemsSource="{Binding InterestsTypes}"
+                                            SelectedItem="{Binding Loan.InterestType}"
+                                            Style="{StaticResource TwoColumnPicker}"
+                                            Grid.Column="1"/>
+                            </VerticalStackLayout>
+                        </Frame>-->
+
+                        <!--DayOfMonthDueDate-->
+                        <!--<Frame Style="{StaticResource TwoColumnFrame}"
+                                   Grid.Row="2">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Dia do vencimento"
+                                       Style="{StaticResource LabelCenterBlack}"/>
+                                
+                                <Entry Text="{Binding DayOfMonthDueDate}"
+                                       Style="{StaticResource TwoColumnEntry}"
+                                       Keyboard="Numeric"
+                                       x:Name="dueDate"
+                                       MaxLength="2"
+                                       TextChanged="DayOfTheMonth_TextChanged"/>
+
+                            </VerticalStackLayout>
+                        </Frame>-->
+
+                        <!--Error Warning Label-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                                   x:Name="errorFrame"
+                                   IsVisible="false"
+                                   Grid.Row="2"
+                                   Grid.Column="1">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Erro"
+                                           TextColor="Red"
+                                           FontSize="30"
+                                           Style="{StaticResource LabelCenterBlack}"/>
+
+                                <Label TextColor="DarkRed"
+                                           x:Name="errorLabel"
+                                           FontSize="{OnPlatform WinUI=25, Default=20}"
+                                           />
+
+                            </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
+                </StackLayout>
+
+                <!--ToPayBody-->
+                <StackLayout x:Name="toPayBody"
+                                 Grid.Row="2"
+                                 Grid.ColumnSpan="2"
+                                 IsVisible="false">
+
+                    <Grid ColumnDefinitions="*,*"
+                              RowDefinitions="*,*,*"
+                              Padding="0"
+                              RowSpacing="30">
+
+                        <!--Amount-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                                   Grid.Row="0"
+                                   Grid.Column="0">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Quantia R$"
+                                       Style="{StaticResource LabelCenterBlack}"
+                                       Grid.Column="0"/>
+
+                                <Entry Text="{Binding Payment.Amount}"
+                                       Style="{StaticResource TwoColumnEntry}"
+                                       Keyboard="Numeric" 
+                                       x:Name="amountPay"
+                                       TextChanged="AmountPay_TextChanged" />
+
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!--Payment Date-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                                   Grid.Row="0"
+                                   Grid.Column="1">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Data"
+                                       Style="{StaticResource LabelCenterBlack}"/>
+
+                                <DatePicker Date="{Binding Payment.PaymentDate}"
+                                            Style="{StaticResource TwoColumnDatePicker}" />
+
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!--Error Warning Label-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                                   IsVisible="false"
+                                   Grid.Row="2"
+                                   Grid.Column="1">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Erro"
+                                           TextColor="Red"
+                                           FontSize="30"
+                                           Style="{StaticResource LabelCenterBlack}"/>
+
+                                <Label TextColor="DarkRed"
+                                           FontSize="{OnPlatform WinUI=25, Default=20}"
+                                           />
+
+                            </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
+                </StackLayout>
+
+                <!--Historic-->
+                <StackLayout x:Name="historicBody"
+                             Grid.Row="2"
+                             Grid.ColumnSpan="2"
+                             Padding="10"
+                             IsVisible="false">
+
+                    <Grid ColumnDefinitions="*,*"
+                          RowDefinitions="*,Auto"
+                          RowSpacing="30">
+
+                        <!--LastDays-->
+                        <Grid Grid.ColumnSpan="2"
+                              RowDefinitions="Auto,*"
+                              HorizontalOptions="Center"
+                              ColumnDefinitions="*,*,*,*">
+
+                            <Label Text="Últimos períodos"
+                                   FontSize="25"
+                                   TextColor="Black"
+                                   Margin="15,0,0,0"
+                                   FontAttributes="Bold"
+                                   HorizontalTextAlignment="Center"
+                                   Grid.ColumnSpan="4"/>
+
+                            <Button Text="30 dias"
+                                    Command="{Binding SetLast30DaysCommand}"
+                                    Style="{StaticResource LastDaysButton}"
+                                    Grid.Column="0"/>
+
+                            <Button Text="60 dias"
+                                    Command="{Binding SetLast60DaysCommand}"
+                                    Style="{StaticResource LastDaysButton}"
+                                    Grid.Column="1"/>
+
+                            <Button Text="90 dias"
+                                    Command="{Binding SetLast90DaysCommand}"
+                                    Style="{StaticResource LastDaysButton}"
+                                    Grid.Column="2"/>
+
+                            <Button Text="{Binding MaximumDate.Year}"
+                                    Command="{Binding SetCurrentYearCommand}"
+                                    Style="{StaticResource LastDaysButton}"
+                                    Grid.Column="3"/>
+                        </Grid>
+
+                        <!--InicialDate-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                               Grid.Row="1"
+                               Grid.Column="0">
+
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Data Inicial"
+                                       Style="{StaticResource LabelCenterBlack}"
+                                       Grid.Column="0"/>
+
+                                <DatePicker Date="{Binding InicialDate}"
+                                            Style="{StaticResource TwoColumnDatePicker}"
+                                            MaximumDate="{Binding FinalDate}" />
+
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!--Final Date-->
+                        <Frame Style="{StaticResource TwoColumnFrame}"
+                               Grid.Row="1"
+                               Grid.Column="1">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Data Final"
+                                       Style="{StaticResource LabelCenterBlack}"/>
+
+                                <DatePicker Date="{Binding FinalDate}"
+                                            Style="{StaticResource TwoColumnDatePicker}"
+                                            MinimumDate="{Binding InicialDate}"
+                                            MaximumDate="{Binding MaximumDate}" />
+
+                            </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
+                </StackLayout>
+            </Grid>
+
+            <Grid ColumnDefinitions="*,*"
+                  HeightRequest="50"
+                  ColumnSpacing="-2"
+                  VerticalOptions="End">
+
+                <Button Style="{StaticResource FooterGoBackButton}"
+                        Command="{Binding GoBackPersonCommand}"/>
+
+                <Button x:Name="saveFindButton"
+                        Clicked="SaveFindButton_Clicked"
+                        Style="{StaticResource FooterSaveButton}"/>
+            </Grid>
+        </Grid>
+    </RefreshView>
+</ContentPage>

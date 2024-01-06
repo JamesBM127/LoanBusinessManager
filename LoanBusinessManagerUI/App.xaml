@@ -1,0 +1,207 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:LoanBusinessManagerUI"
+             x:Class="LoanBusinessManagerUI.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Color x:Key="Primary">#FFC107</Color>
+            <Color x:Key="PrimaryDark">#FFA000</Color>
+            <Color x:Key="Accent">#00BCD4</Color>
+            <Color x:Key="RedFlamengoColor">#c3271f</Color>
+
+            <Color x:Key="LightBackground">#FAF9F8</Color>
+            <Color x:Key="DarkBackground">Black</Color>
+
+            <Style ApplyToDerivedTypes="True" TargetType="Page">
+                <Setter Property="BackgroundColor" Value="{StaticResource LightBackground}" />
+            </Style>
+
+            <Style ApplyToDerivedTypes="True" TargetType="NavigationPage">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}" />
+                <Setter Property="BarBackgroundColor" Value="{StaticResource Primary}" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
+
+            <Style TargetType="Label" x:Key="BaseLabel">
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+                <Setter Property="TextColor" Value="#1F1F1F" />
+            </Style>
+
+            <Style x:Key="MicroLabel" BasedOn="{StaticResource BaseLabel}" TargetType="Label">
+                <Setter Property="FontSize" Value="10"/>
+            </Style>
+
+            <Style x:Key="SmallLabel" BasedOn="{StaticResource BaseLabel}" TargetType="Label">
+                <Setter Property="FontSize" Value="12"/>
+            </Style>
+
+            <Style x:Key="MediumLabel" BasedOn="{StaticResource BaseLabel}" TargetType="Label">
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+
+            <Style x:Key="LargeLabel" BasedOn="{StaticResource BaseLabel}" TargetType="Label">
+                <Setter Property="FontSize" Value="25"/>
+            </Style>
+
+            <Style ApplyToDerivedTypes="True" TargetType="RefreshView">
+                <Setter Property="RefreshColor" Value="{StaticResource Primary}" />
+            </Style>
+
+            <!--PICKER-->
+            <Style x:Key="TwoColumnPicker" TargetType="Picker">
+                <Setter Property="BackgroundColor" Value="#DDDDDD"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontSize" Value="20"/>
+            </Style>
+
+            <!--DATE PICKER-->
+            <Style x:Key="TwoColumnDatePicker" TargetType="DatePicker">
+                <Setter Property="BackgroundColor" Value="#DDDDDD"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="Format" Value="dd/MM/yyy"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            </Style>
+            
+            <!--ENTRY-->
+            <Style x:Key="TwoColumnEntry" TargetType="Entry">
+                <Setter Property="PlaceholderColor" Value="#888888"/>
+                <Setter Property="BackgroundColor" Value="#DDDDDD"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="20"/>
+            </Style>
+            <Style x:Key="OneColumnEntry" TargetType="Entry">
+                <Setter Property="PlaceholderColor" Value="#888888"/>
+                <Setter Property="BackgroundColor" Value="#DDDDDD"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="HorizontalTextAlignment" Value="Start"/>
+                <Setter Property="FontSize" Value="20"/>
+            </Style>
+            
+            <!--BUTTON-->
+            <Style x:Key="FooterButton" TargetType="Button">
+                <Setter Property="CornerRadius" Value="0"/>
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="TextColor" Value="White"/>
+            </Style>
+            <Style x:Key="FooterGoBackButton" TargetType="Button" BasedOn="{StaticResource FooterButton}">
+                <Setter Property="Text" Value="Voltar"/>
+                <Setter Property="BackgroundColor" Value="#FF0000"/>
+                <Setter Property="Grid.Column" Value="0"/>
+            </Style>
+            <Style x:Key="FooterSaveButton" TargetType="Button" BasedOn="{StaticResource FooterButton}">
+                <Setter Property="Text" Value="Salvar"/>
+                <Setter Property="BackgroundColor" Value="#303030"/>
+                <Setter Property="Grid.Column" Value="1"/>
+            </Style>
+            <Style x:Key="PersonMenuButton" TargetType="Button">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="CornerRadius" Value="0"/>
+                <Setter Property="FontSize" Value="22"/>
+                <Setter Property="BackgroundColor" Value="#2e2e2e"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="BorderColor" Value="White"/>
+                <Setter Property="BorderWidth" Value="1"/>
+            </Style>
+            <Style x:Key="LastDaysButton" TargetType="Button">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="Grid.Row" Value="1"/>
+                <Setter Property="CornerRadius" Value="{OnPlatform WinUI=20, Default=50}"/>
+                <Setter Property="FontSize" Value="17"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="BorderColor" Value="Black"/>
+                <Setter Property="BorderWidth" Value="2"/>
+                <Setter Property="Margin" Value="3,0"/>
+                <Setter Property="WidthRequest" Value="90"/>
+            </Style>
+            <Style x:Key="GetSaveDatabaseButtonMenu" TargetType="Button">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="BackgroundColor" Value="Black"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="Margin" Value="0,10,0,-10"/>
+            </Style>
+            <Style x:Key="PersonHeaderButton" TargetType="Button">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="Grid.Column" Value="1"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="MaximumHeightRequest" Value="35"/>
+                <Setter Property="BorderColor" Value="Black"/>
+                <Setter Property="BorderWidth" Value="1"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HorizontalOptions" Value="End"/>
+            </Style>
+            <Style x:Key="OptionsFrameButton" TargetType="Button">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="BorderColor" Value="White"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="BackgroundColor" Value="#1e1e1e"/>
+                <Setter Property="BorderWidth" Value="1"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+            
+            <!--LABEL-->
+            <Style x:Key="LabelCenterBlack" TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+            <Style x:Key="HeaderLoanLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="VerticalOptions" Value="Start"/>
+                <Setter Property="HorizontalOptions" Value="StartAndExpand"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+            <Style x:Key="OptionsFrameLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="Margin" Value="0,0,0,10"/>
+                <Setter Property="TextColor" Value="White"/>
+            </Style>
+            <Style x:Key="HeaderTableLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="HeightRequest" Value="30"/>
+            </Style>
+            <Style x:Key="BodyTableLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="TextColor" Value="Black"/>
+                <Setter Property="Padding" Value="5"/>
+            </Style>
+
+            <!--FRAME-->
+            <Style x:Key="WhiteFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="BorderColor" Value="Black"/>
+                <Setter Property="HeightRequest" Value="100"/>
+                <Setter Property="Padding" Value="10"/>
+            </Style>
+            <Style x:Key="TwoColumnFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="MaximumHeightRequest" Value="150"/>
+                <Setter Property="MinimumWidthRequest" Value="150"/>
+                <Setter Property="Padding" Value="10"/>
+            </Style>
+            <Style x:Key="HeaderTableFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="Black"/>
+                <Setter Property="BorderColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+            <Style x:Key="BodyTableFrame" TargetType="Frame">
+                <Setter Property="BorderColor" Value="Black"/>
+                <Setter Property="CornerRadius" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="MinimumHeightRequest" Value="50"/>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
