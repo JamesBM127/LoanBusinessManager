@@ -66,16 +66,4 @@ public static class MauiProgram
 
         return builder.Build();
     }
-
-    private static S3Config GetS3Config()
-    {
-        return new S3Config
-        {
-            AwsAccessKeyId = "AKIA3BKK7I6BKV4MJJET",
-            AwsSecretAccessKey = "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",
-            BucketName = "jbm-database-sqlite-bucket",
-            BucketUrl = "https://jbm-database-sqlite-bucket.s3.sa-east-1.amazonaws.com/",
-            RegionEndpoint = "sa-east-1"
-        };
-    }
 }
